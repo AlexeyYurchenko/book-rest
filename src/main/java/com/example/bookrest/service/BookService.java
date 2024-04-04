@@ -5,6 +5,7 @@ import com.example.bookrest.entity.Category;
 import com.example.bookrest.exception.EntityNotFoundException;
 import com.example.bookrest.repository.BookRepository;
 import com.example.bookrest.repository.CategoryRepository;
+import com.example.bookrest.utils.BeanUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,30 +26,35 @@ public class BookService {
         log.debug("BookService -> findAll");
         return bookRepository.findAll();
     }
+
     public Book findById(Long id) {
         log.debug("BookService -> findById id = {}", id);
         return bookRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(MessageFormat
-                .format("Book with ID {0} not found",id)));
+                .format("Book with ID {0} not found", id)));
     }
+
     public Category findByIdCategory(Long id) {
         return categoryRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(MessageFormat
-                .format("Category with ID {0} not found",id)));
+                .format("Category with ID {0} not found", id)));
     }
+
     public List<Book> findByCategoryName(String name) {
         Optional<Category> category = categoryRepository.findByName(name);
         if (category.isPresent()) {
             return bookRepository.findByCategoryId(category.get().getId());
         } else {
-            throw new EntityNotFoundException(MessageFormat.format("Category with name {0} not found",name));
+            throw new EntityNotFoundException(MessageFormat.format("Category with name {0} not found", name));
         }
     }
+
     public Book findByName(String name) {
-        return bookRepository.findByName(name).orElseThrow(()->
-                new EntityNotFoundException(MessageFormat.format("Book with name {0} not found",name)));
+        return bookRepository.findByName(name).orElseThrow(() ->
+                new EntityNotFoundException(MessageFormat.format("Book with name {0} not found", name)));
     }
+
     public Book findByAuthor(String author) {
-        return bookRepository.findByAuthor(author).orElseThrow(()->
-                new EntityNotFoundException(MessageFormat.format("Book with author {0} not found",author)));
+        return bookRepository.findByAuthor(author).orElseThrow(() ->
+                new EntityNotFoundException(MessageFormat.format("Book with author {0} not found", author)));
     }
 
     public Book save(Book book) {
@@ -57,7 +63,15 @@ public class BookService {
         return bookRepository.save(book);
     }
 
+    public Book update(Book book) {
+        Category category = findByIdCategory(book.getId());
+        Book existedBook = findById(book.getId());
+        BeanUtils.copyNonNullProperties(book, existedBook);
+        existedBook.setCategory(category);
+        return bookRepository.save(existedBook);
+    }
 
-
-
+    public void deleteById(Long id) {
+        bookRepository.deleteById(id);
+    }
 }
