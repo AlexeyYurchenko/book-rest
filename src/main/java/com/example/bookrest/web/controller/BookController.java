@@ -50,8 +50,15 @@ public class BookController {
         return ResponseEntity.status(HttpStatus.CREATED).body(bookMapper.bookToResponse(newBook));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<BookResponse> update(@PathVariable Long id, @RequestBody UpsertBookRequest request) {
+        Book updateBook = bookService.update(bookMapper.requestToBook(id,request));
+        return ResponseEntity.ok(bookMapper.bookToResponse(updateBook));
+    }
 
-
-
-
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+        bookService.deleteByBookId(id);
+        return ResponseEntity.noContent().build();
+    }
 }
