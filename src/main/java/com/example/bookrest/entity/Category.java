@@ -24,6 +24,7 @@ public class Category {
     @ToString.Exclude
     private List<Book> books = new ArrayList<>();
 
+
     public void addBook(Book book) {
         book.setCategory(this);
         books.add(book);
