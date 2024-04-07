@@ -3,13 +3,15 @@ package com.example.bookrest.web.controller;
 import com.example.bookrest.entity.Book;
 import com.example.bookrest.mapper.BookMapper;
 import com.example.bookrest.service.BookService;
-import com.example.bookrest.web.model.BookListResponse;
 import com.example.bookrest.web.model.BookResponse;
 import com.example.bookrest.web.model.UpsertBookRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,8 +22,8 @@ public class BookController {
     private final BookMapper bookMapper;
 
     @GetMapping
-    public ResponseEntity<BookListResponse> findAll() {
-        return ResponseEntity.ok(bookMapper.bookListToResponseList(bookService.findAll()));
+    public ResponseEntity <List<BookResponse>> findAll() {
+        return ResponseEntity.ok(bookService.findAll().stream().map(bookMapper :: bookToResponse).toList());
     }
 
     @GetMapping("/{id}")
@@ -30,8 +32,8 @@ public class BookController {
     }
 
     @GetMapping("/category")
-    public ResponseEntity<BookListResponse> findBooksByCategory(@RequestParam("name") String categoryName) {
-        return ResponseEntity.ok(bookMapper.bookListToResponseList(bookService.findByCategoryName(categoryName)));
+    public ResponseEntity <List<BookResponse>> findBooksByCategory(@RequestParam("name") String categoryName) {
+        return ResponseEntity.ok(bookService.findByCategoryName(categoryName).stream().map(bookMapper ::bookToResponse).toList());
     }
 
     @GetMapping("/book-name")
@@ -50,11 +52,11 @@ public class BookController {
         return ResponseEntity.status(HttpStatus.CREATED).body(bookMapper.bookToResponse(newBook));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<BookResponse> update(@PathVariable Long id, @RequestBody UpsertBookRequest request) {
-        Book updateBook = bookService.update(bookMapper.requestToBook(id,request));
-        return ResponseEntity.ok(bookMapper.bookToResponse(updateBook));
-    }
+//    @PutMapping("/{id}")
+//    public ResponseEntity<BookResponse> update(@PathVariable Long id, @RequestBody UpsertBookRequest request) {
+//        Book updateBook = bookService.update(bookMapper.requestToBook(id,request));
+//        return ResponseEntity.ok(bookMapper.bookToResponse(updateBook));
+//    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {

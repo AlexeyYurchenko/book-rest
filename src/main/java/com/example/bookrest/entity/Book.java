@@ -3,16 +3,16 @@ package com.example.bookrest.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Entity
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
-@ToString
-public class Book {
+import java.io.Serializable;
+
+import static jakarta.persistence.GenerationType.IDENTITY;
+
+@Data
+@Entity(name = "books")
+public class Book implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
     private String name;
@@ -20,8 +20,9 @@ public class Book {
     private String author;
 
     @ManyToOne
-    @JoinColumn(name = "category_id", nullable = false)
+    @JoinColumn(name = "category_id")
     @ToString.Exclude
     private Category category;
 
 }
+

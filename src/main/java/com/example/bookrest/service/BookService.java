@@ -41,7 +41,7 @@ public class BookService {
 
     public List<Book> findByCategoryName(String name) {
         log.debug("BookService -> findByCategoryName name = {}", name);
-        Optional<Category> category = categoryRepository.findByName(name);
+        Optional<Category> category = categoryRepository.findByCategoryName(name);
         if (category.isPresent()) {
             return bookRepository.findByCategoryId(category.get().getId());
         } else {
@@ -63,8 +63,6 @@ public class BookService {
 
     public Book save(Book book) {
         log.debug("BookService -> save");
-        Category category = findByCategoryId(book.getId());
-        category.addBook(book);
         return bookRepository.save(book);
     }
 

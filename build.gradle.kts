@@ -7,9 +7,9 @@ plugins {
 group = "com.example"
 version = "0.0.1-SNAPSHOT"
 
-java {
-	sourceCompatibility = JavaVersion.VERSION_21
-}
+//java {
+//	sourceCompatibility = JavaVersion.VERSION_21
+//}
 
 configurations {
 	compileOnly {
@@ -29,8 +29,8 @@ dependencies {
 	compileOnly("org.projectlombok:lombok")
 	runtimeOnly("org.postgresql:postgresql")
 	annotationProcessor("org.projectlombok:lombok")
-	implementation("org.mapstruct:mapstruct:1.5.3.Final")
-	annotationProcessor("org.mapstruct:mapstruct-processor:1.5.3.Final")
+//	implementation("org.mapstruct:mapstruct:1.5.3.Final")
+//	annotationProcessor("org.mapstruct:mapstruct-processor:1.5.3.Final")
 
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
