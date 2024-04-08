@@ -16,7 +16,7 @@ public interface BookRepository extends JpaRepository<Book,Long>, JpaSpecificati
 
     Optional<Book> findByName (String name);
 
-    Optional<Book> findByAuthor(String author);
+    List<Book> findByAuthor(String author);
 
     @EntityGraph(attributePaths = {"category"})
     List<Book> findAll();

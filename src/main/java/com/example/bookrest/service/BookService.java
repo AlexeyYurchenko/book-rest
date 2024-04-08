@@ -55,10 +55,14 @@ public class BookService {
                 new EntityNotFoundException(MessageFormat.format("Book with name {0} not found", name)));
     }
 
-    public Book findByBookAuthor(String author) {
+    public List<Book> findByBookAuthor(String author) {
         log.debug("BookService -> findByBookAuthor author = {}", author);
-        return bookRepository.findByAuthor(author).orElseThrow(() ->
-                new EntityNotFoundException(MessageFormat.format("Book with author {0} not found", author)));
+        List<Book> books = bookRepository.findByAuthor(author);
+        if (books.isEmpty()) {
+            throw new EntityNotFoundException(MessageFormat.format("Book with author {0} not found", author));
+        } else {
+            return books;
+        }
     }
 
     public Book save(Book book) {

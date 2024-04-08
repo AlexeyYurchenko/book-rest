@@ -30,30 +30,4 @@ public class Category implements Serializable {
         book.setCategory(this);
         books.add(book);
     }
-
 }
-//@Entity
-//@NoArgsConstructor
-//@AllArgsConstructor
-//@Getter
-//@Setter
-//@ToString
-//public class Category {
-//
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long id;
-//
-//    private String name;
-//
-//    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @ToString.Exclude
-//    private List<Book> books = new ArrayList<>();
-//
-//    public Category(String categoryName) {
-//    }
-//    public void addBook(Book book) {
-//        book.setCategory(this);
-//        books.add(book);
-//    }
-//}

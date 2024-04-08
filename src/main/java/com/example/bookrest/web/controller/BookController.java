@@ -42,8 +42,8 @@ public class BookController {
     }
 
     @GetMapping("/book-author")
-    public ResponseEntity<BookResponse> findBookByAuthor(@RequestParam("author") String author) {
-        return ResponseEntity.ok((bookMapper.bookToResponse(bookService.findByBookAuthor(author))));
+    public ResponseEntity <List<BookResponse>> findBookByAuthor(@RequestParam("author") String author) {
+        return ResponseEntity.ok(bookService.findByBookAuthor(author).stream().map(bookMapper::bookToResponse).toList());
     }
 
     @PostMapping
@@ -52,11 +52,11 @@ public class BookController {
         return ResponseEntity.status(HttpStatus.CREATED).body(bookMapper.bookToResponse(newBook));
     }
 
-//    @PutMapping("/{id}")
-//    public ResponseEntity<BookResponse> update(@PathVariable Long id, @RequestBody UpsertBookRequest request) {
-//        Book updateBook = bookService.update(bookMapper.requestToBook(id,request));
-//        return ResponseEntity.ok(bookMapper.bookToResponse(updateBook));
-//    }
+    @PutMapping("/{id}")
+    public ResponseEntity<BookResponse> update(@PathVariable Long id, @RequestBody UpsertBookRequest request) {
+        Book updateBook = bookService.update(bookMapper.requestToBook(id,request));
+        return ResponseEntity.ok(bookMapper.bookToResponse(updateBook));
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {

@@ -31,11 +31,15 @@ public class BookMapper {
             category.setCategoryName(request.getCategoryName());
             category.addBook(book);
             categoryRepository.save(category);
-
         }
         return book;
     }
 
+    public Book requestToBook(Long bookId, UpsertBookRequest request) {
+        Book book = requestToBook(request);
+        book.setId(bookId);
+        return book;
+    }
 
     public BookResponse bookToResponse(Book book) {
         BookResponse bookResponse = new BookResponse();
@@ -45,6 +49,4 @@ public class BookMapper {
         bookResponse.setCategoryName(book.getCategory().getCategoryName());
         return bookResponse;
     }
-
-
 }

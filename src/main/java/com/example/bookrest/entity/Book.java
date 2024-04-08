@@ -2,7 +2,6 @@ package com.example.bookrest.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.io.Serializable;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
@@ -25,4 +24,3 @@ public class Book implements Serializable {
     private Category category;
 
 }
-
