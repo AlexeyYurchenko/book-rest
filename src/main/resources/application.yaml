@@ -15,3 +15,17 @@ spring:
     username: postgres
     password: postgres
     url: jdbc:postgresql://localhost:5432/app_db
+
+book:
+  redis:
+    enabled: true
+  cache:
+    cacheType: redis
+    cache-names:
+      - databaseEntities
+      - databaseEntityByName
+    caches:
+      databaseEntities:
+        expiry: 30s
+      databaseEntityByName:
+        expiry: 30s
