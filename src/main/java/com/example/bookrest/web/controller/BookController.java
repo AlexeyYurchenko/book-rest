@@ -5,6 +5,7 @@ import com.example.bookrest.mapper.BookMapper;
 import com.example.bookrest.service.BookService;
 import com.example.bookrest.web.model.BookResponse;
 import com.example.bookrest.web.model.UpsertBookRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,13 +48,13 @@ public class BookController {
     }
 
     @PostMapping
-    public ResponseEntity<BookResponse> create(@RequestBody UpsertBookRequest request) {
+    public ResponseEntity<BookResponse> create(@RequestBody @Valid UpsertBookRequest request) {
         Book newBook = bookService.save(bookMapper.requestToBook(request));
         return ResponseEntity.status(HttpStatus.CREATED).body(bookMapper.bookToResponse(newBook));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BookResponse> update(@PathVariable Long id, @RequestBody UpsertBookRequest request) {
+    public ResponseEntity<BookResponse> update(@PathVariable Long id, @RequestBody @Valid UpsertBookRequest request) {
         Book updateBook = bookService.update(bookMapper.requestToBook(id,request));
         return ResponseEntity.ok(bookMapper.bookToResponse(updateBook));
     }

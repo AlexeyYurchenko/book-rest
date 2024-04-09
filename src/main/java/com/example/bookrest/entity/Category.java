@@ -10,7 +10,6 @@ import java.util.List;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Data
-@RequiredArgsConstructor
 @NoArgsConstructor
 @Entity(name = "categories")
 public class Category implements Serializable {
@@ -19,7 +18,6 @@ public class Category implements Serializable {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @NonNull
     private String categoryName;
 
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
