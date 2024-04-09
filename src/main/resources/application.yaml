@@ -22,10 +22,22 @@ book:
   cache:
     cacheType: redis
     cache-names:
-      - databaseEntities
-      - databaseEntityByName
+      - entitiesFindAll
+      - findByCategoryName
+      - findByBookName
+      - findByBookAuthor
+      - entitySave
+      - entityUpdate
     caches:
-      databaseEntities:
-        expiry: 30s
-      databaseEntityByName:
-        expiry: 30s
+      entitiesFindAll:
+        expiry: 10s
+      findByCategoryName:
+        expiry: 10s
+      findByBookName:
+        expiry: 10s
+      findByBookAuthor:
+        expiry: 10s
+      entitySave:
+        expiry: 10s
+      entityUpdate:
+        expiry: 10s

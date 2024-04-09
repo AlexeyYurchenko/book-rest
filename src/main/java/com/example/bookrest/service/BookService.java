@@ -9,10 +9,7 @@ import com.example.bookrest.repository.CategoryRepository;
 import com.example.bookrest.utils.BeanUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
-import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.annotation.*;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -22,12 +19,14 @@ import java.util.Optional;
 @Service
 @Slf4j
 @EnableCaching
+@CacheConfig(cacheManager = "redisCacheManager")
 @RequiredArgsConstructor
 public class BookService {
 
     private final BookRepository bookRepository;
     private final CategoryRepository categoryRepository;
 
+    @Cacheable(cacheNames = BookCacheProperties.CacheNames.ENTITIES_FIND_ALL)
     public List<Book> findAll() {
         log.debug("BookService -> findAll");
         return bookRepository.findAll();
@@ -45,7 +44,7 @@ public class BookService {
                 .format("Category with ID {0} not found", id)));
     }
 
-    @Cacheable(cacheNames = BookCacheProperties.CacheNames.DATABASE_ENTITIES, key = "#categoryName")
+    @Cacheable(cacheNames = BookCacheProperties.CacheNames.FIND_BY_CATEGORY_NAME, key = "#categoryName")
     public List<Book> findByCategoryName(String categoryName) {
         log.debug("BookService -> findByCategoryName name = {}", categoryName);
         Optional<Category> category = categoryRepository.findByCategoryName(categoryName);
@@ -55,14 +54,14 @@ public class BookService {
             throw new EntityNotFoundException(MessageFormat.format("Category with name {0} not found", categoryName));
         }
     }
-    @Cacheable(cacheNames = BookCacheProperties.CacheNames.DATABASE_ENTITIES, key = "#name")
+    @Cacheable(cacheNames = BookCacheProperties.CacheNames.FIND_BY_BOOK_NAME, key = "#name")
     public Book findByBookName(String name) {
         log.debug("BookService -> findByBookName name = {}", name);
         return bookRepository.findByName(name).orElseThrow(() ->
                 new EntityNotFoundException(MessageFormat.format("Book with name {0} not found", name)));
     }
 
-    @Cacheable(cacheNames = BookCacheProperties.CacheNames.DATABASE_ENTITIES, key = "#author")
+    @Cacheable(cacheNames = BookCacheProperties.CacheNames.FIND_BY_BOOK_AUTHOR, key = "#author")
     public List<Book> findByBookAuthor(String author) {
         log.debug("BookService -> findByBookAuthor author = {}", author);
         List<Book> books = bookRepository.findByAuthor(author);
@@ -75,8 +74,8 @@ public class BookService {
 
     @Caching(
             evict = {
-                    @CacheEvict(cacheNames = BookCacheProperties.CacheNames.DATABASE_ENTITIES, beforeInvocation = true, key = "#book.name + #book.author"),
-                    @CacheEvict(cacheNames = BookCacheProperties.CacheNames.DATABASE_ENTITIES, beforeInvocation = true, key = "#book.category.categoryName")
+                    @CacheEvict(cacheNames = BookCacheProperties.CacheNames.ENTITY_SAVE, beforeInvocation = true, key = "#book.name + #book.author"),
+                    @CacheEvict(cacheNames = BookCacheProperties.CacheNames.ENTITY_SAVE, beforeInvocation = true, key = "#book.category.categoryName")
             }
     )
     public Book save(Book book) {
@@ -86,8 +85,8 @@ public class BookService {
 
     @Caching(
             evict = {
-                    @CacheEvict(cacheNames = BookCacheProperties.CacheNames.DATABASE_ENTITIES, beforeInvocation = true, key = "#book.name + #book.author"),
-                    @CacheEvict(cacheNames = BookCacheProperties.CacheNames.DATABASE_ENTITIES, beforeInvocation = true, key = "#book.category.categoryName")
+                    @CacheEvict(cacheNames = BookCacheProperties.CacheNames.ENTITY_UPDATE, beforeInvocation = true, key = "#book.name + #book.author"),
+                    @CacheEvict(cacheNames = BookCacheProperties.CacheNames.ENTITY_UPDATE, beforeInvocation = true, key = "#book.category.categoryName")
             }
     )
     public Book update(Book book) {
