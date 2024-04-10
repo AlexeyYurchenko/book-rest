@@ -23,12 +23,9 @@ public class BookCacheProperties {
     }
 
     public interface CacheNames {
-        String ENTITIES_FIND_ALL = "entitiesFindAll";
-        String FIND_BY_CATEGORY_NAME= "findByCategoryName";
-        String FIND_BY_BOOK_NAME = "findByBookName";
-        String FIND_BY_BOOK_AUTHOR = "findByBookAuthor";
-        String ENTITY_SAVE = "entitySave";
-        String ENTITY_UPDATE = "entityUpdate";
+
+        String DATABASE_ENTITIES = "databaseEntities";
+
     }
 
     public enum CacheType {
