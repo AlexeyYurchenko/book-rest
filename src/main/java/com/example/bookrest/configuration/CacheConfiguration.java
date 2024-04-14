@@ -53,7 +53,7 @@ public class CacheConfiguration {
 
     @Bean
     @ConditionalOnProperty(prefix = "book.redis", name = "enabled", havingValue = "true")
-//    @ConditionalOnExpression("$(app.cache.cacheType).equals('redis')")
+    @ConditionalOnExpression("'${book.cache.cacheType}'.equals('redis')")
     @DependsOn({"lettuceConnectionFactory"})
     public CacheManager redisCacheManager(BookCacheProperties bookCacheProperties, LettuceConnectionFactory lettuceConnectionFactory) {
         var defaultConfig = RedisCacheConfiguration.defaultCacheConfig();

@@ -10,6 +10,8 @@ import java.util.List;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Data
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "categories")
 public class Category implements Serializable {
@@ -19,13 +21,4 @@ public class Category implements Serializable {
     private Long id;
 
     private String categoryName;
-
-    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @ToString.Exclude
-    private List<Book> books = new ArrayList<>();
-
-    public void addBook(Book book) {
-        book.setCategory(this);
-        books.add(book);
-    }
 }
