@@ -17,12 +17,18 @@ spring:
     url: jdbc:postgresql://localhost:5432/app_db
 
 book:
-  redis:
-    enabled: true
   cache:
-    cacheType: redis
     cache-names:
-      - databaseEntities
+      - findAllBooks
+      - findByBookId
+      - findAllByCategory
+      - findByAuthorAndName
     caches:
-      databaseEntities:
+      findAllBooks:
+        expiry: 10s
+      findByBookId:
+        expiry: 10s
+      findAllByCategory:
+        expiry: 10s
+      findByAuthorAndName:
         expiry: 10s

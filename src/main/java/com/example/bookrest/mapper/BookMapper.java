@@ -10,8 +10,11 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface BookMapper {
 
-    @Mapping(source = "category.name", target = "categoryName")
+    @Mapping(source = "category.categoryName", target = "categoryName")
     BookResponse bookToResponse(Book book);
-    @Mapping(source = "categoryName", target = "category.name")
+
+    @Mapping(source = "categoryName", target = "category.categoryName")
     Book requestToBook(UpsertBookRequest request);
+    @Mapping(source = "bookId", target = "id")
+    Book requestToBook(Long bookId, UpsertBookRequest request);
 }
