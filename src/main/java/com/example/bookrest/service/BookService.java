@@ -23,14 +23,14 @@ public class BookService {
 
     private final BookRepository bookRepository;
 
-
     @Cacheable(BookCacheProperties.CacheNames.FIND_ALL_BOOKS)
     public List<Book> findAll() {
         log.debug("BookService -> findAll");
         return bookRepository.findAll();
     }
+
     @Cacheable(cacheNames = BookCacheProperties.CacheNames.FIND_BY_BOOK_ID, key = "#id")
-    public Book  findByBookId(Long id) {
+    public Book findByBookId(Long id) {
         log.debug("BookService -> findByBookId id = {}", id);
         return bookRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(MessageFormat
                 .format("Book with ID {0} not found", id)));
@@ -44,8 +44,8 @@ public class BookService {
 
     @Cacheable(cacheNames = BookCacheProperties.CacheNames.FIND_BY_AUTHOR_AND_NAME, key = "#author+#name")
     public Book findByAuthorAndName(String author, String name) {
-        log.debug(MessageFormat.format("BookService -> findByAuthorAndTitle author: {0} and name: {1}",author, name));
-        return bookRepository.findByAuthorAndName(author,name).orElseThrow(()-> new EntityNotFoundException(
+        log.debug(MessageFormat.format("BookService -> findByAuthorAndTitle author: {0} and name: {1}", author, name));
+        return bookRepository.findByAuthorAndName(author, name).orElseThrow(() -> new EntityNotFoundException(
                 MessageFormat.format("Book with author {0} and name {1} not found", author, name)
         ));
     }
@@ -88,7 +88,6 @@ public class BookService {
         log.debug("Update book: {}", existedBook.getId());
         return bookRepository.save(existedBook);
     }
-
 
     @Transactional
     @Caching(evict = {

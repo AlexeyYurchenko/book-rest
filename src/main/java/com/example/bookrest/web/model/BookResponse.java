@@ -1,6 +1,5 @@
 package com.example.bookrest.web.model;
 
-import com.example.bookrest.entity.Category;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
