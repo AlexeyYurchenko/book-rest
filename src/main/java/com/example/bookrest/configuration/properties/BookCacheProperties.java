@@ -25,5 +25,9 @@ public class BookCacheProperties {
         String FIND_ALL_BOOKS = "findAllBooks";
         String FIND_BY_BOOK_ID = "findByBookId";
 
+        String FIND_ALL_BY_CATEGORY= "findAllByCategory";
+
+        String FIND_BY_AUTHOR_AND_NAME = "findByAuthorAndName";
+
     }
 }
