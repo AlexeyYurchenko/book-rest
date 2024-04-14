@@ -15,7 +15,6 @@ public class BookCacheProperties {
 
     private final List<String> cacheNames = new ArrayList<>();
     private final Map<String, CacheProperties> caches = new HashMap<>();
-    private CacheType cacheType;
 
     @Data
     public static class CacheProperties {
@@ -23,12 +22,8 @@ public class BookCacheProperties {
     }
 
     public interface CacheNames {
+        String FIND_ALL_BOOKS = "findAllBooks";
+        String FIND_BY_BOOK_ID = "findByBookId";
 
-        String DATABASE_ENTITIES = "databaseEntities";
-
-    }
-
-    public enum CacheType {
-        IN_MEMORY, REDIS;
     }
 }

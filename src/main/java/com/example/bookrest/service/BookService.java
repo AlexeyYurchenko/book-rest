@@ -5,7 +5,6 @@ import com.example.bookrest.entity.Book;
 import com.example.bookrest.entity.Category;
 import com.example.bookrest.exception.EntityNotFoundException;
 import com.example.bookrest.repository.BookRepository;
-import com.example.bookrest.repository.CategoryRepository;
 import com.example.bookrest.utils.BeanUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,24 +23,18 @@ import java.util.Optional;
 public class BookService {
 
     private final BookRepository bookRepository;
-    private final CategoryRepository categoryRepository;
 
-    @Cacheable(BookCacheProperties.CacheNames.DATABASE_ENTITIES)
+
+    @Cacheable(BookCacheProperties.CacheNames.FIND_ALL_BOOKS)
     public List<Book> findAll() {
         log.debug("BookService -> findAll");
         return bookRepository.findAll();
     }
-
+    @Cacheable(cacheNames = BookCacheProperties.CacheNames.FIND_BY_BOOK_ID, key = "#id")
     public Book findByBookId(Long id) {
         log.debug("BookService -> findByBookId id = {}", id);
         return bookRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(MessageFormat
                 .format("Book with ID {0} not found", id)));
-    }
-
-    public Category findByCategoryId(Long id) {
-        log.debug("BookService -> findByCategoryId id = {}", id);
-        return categoryRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(MessageFormat
-                .format("Category with ID {0} not found", id)));
     }
 
     @Cacheable(cacheNames = BookCacheProperties.CacheNames.DATABASE_ENTITIES, key = "#categoryName")
