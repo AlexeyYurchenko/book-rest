@@ -15,6 +15,5 @@ public interface BookMapper {
 
     @Mapping(source = "categoryName", target = "category.categoryName")
     Book requestToBook(UpsertBookRequest request);
-    @Mapping(source = "bookId", target = "id")
-    Book requestToBook(Long bookId, UpsertBookRequest request);
+
 }

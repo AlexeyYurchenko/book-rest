@@ -79,12 +79,13 @@ public class BookService {
             @CacheEvict(cacheNames = BookCacheProperties.CacheNames.FIND_BY_AUTHOR_AND_NAME, allEntries = true),
             @CacheEvict(cacheNames = BookCacheProperties.CacheNames.FIND_BY_BOOK_ID, key = "#id", beforeInvocation = true)
     })
-    public Book update(Book book) {
-        Book existedBook = findByBookId(book.getId());
+    public Book update(Book book,Long id) {
+        Book existedBook = findByBookId(id);
         Category existedCategory = existedBook.getCategory();
         existedCategory.setCategoryName(book.getCategory().getCategoryName());
         existedBook.setAuthor(book.getAuthor());
         existedBook.setName(book.getName());
+
         log.debug("Update book: {}", existedBook.getId());
         return bookRepository.save(existedBook);
     }

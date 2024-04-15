@@ -8,7 +8,11 @@ import java.io.Serializable;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
-@Data
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity(name = "books")
 @FieldNameConstants
 public class Book implements Serializable {
